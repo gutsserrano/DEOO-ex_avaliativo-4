@@ -43,13 +43,14 @@ public class Storage {
         }
     }
 
-    public void sellProduct(Long id, int quantity){
+    public boolean sellProduct(Long id, int quantity){
         Product p = findById(id);
         if(p != null){
             synchronized (products){
-                p.decrementQuantity(quantity);
+                return p.decrementQuantity(quantity);
             }
         }
+        return false;
     }
 
 }

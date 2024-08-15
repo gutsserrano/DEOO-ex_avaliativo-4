@@ -3,6 +3,7 @@ import model.entities.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,12 +15,17 @@ public class Main {
 
         List<Thread> threads = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++){
+        Random random = new Random();
+        for (int i = 0; i < 8; i++){
             Thread t = new Thread(){
                 @Override
                 public void run(){
-                    storage.sellProduct(1L, 3);
-                    System.out.println(storage.findById(1L));
+                    Long value = random.nextLong(1, 4);
+                    int quantity = random.nextInt(1, 8);
+                    if(storage.sellProduct(value, quantity))
+                        System.out.println(storage.findById(value).getName() + " vendido. Quantidade: " + quantity);
+                    else
+                        System.out.println(storage.findById(value).getName() + " não vendido por falta de estoque.");
                 };
 
             };
@@ -27,7 +33,6 @@ public class Main {
         }
 
         threads.forEach(Thread::start);
-
 
     }
 
